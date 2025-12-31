@@ -1,0 +1,27 @@
+{
+  "name": "progress_classes",
+  "version": "1.0.0",
+  "description": "Coaching institute website backend using Node.js, Express, and PostgreSQL with admin panel",
+  "homepage": "https://github.com/AyushBasak001/Progress_Classes#readme",
+  "bugs": {
+    "url": "https://github.com/AyushBasak001/Progress_Classes/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AyushBasak001/Progress_Classes.git"
+  },
+  "license": "ISC",
+  "author": "Ayush",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "pg": "^8.16.3"
+  }
+}
