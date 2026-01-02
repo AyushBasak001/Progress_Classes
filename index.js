@@ -130,9 +130,49 @@ app.delete("/admin/course/:id", async (req, res) => {
 
 app.get("/admin/faculty", async (req, res) => {
   try {
-    const result = await db.query("SELECT fc.faculty_id, f.first_name, f.last_name, f.qualification, f.date_joined, fc.course_id, c.name AS course_name, c.level FROM faculty_course fc JOIN faculty f ON fc.faculty_id = f.id JOIN course c ON fc.course_id = c.id ORDER BY f.first_name ASC, f.last_name ASC");
+    const result = await db.query("SELECT f.id AS faculty_id, f.first_name, f.last_name, f.qualification, f.date_joined, fc.course_id, c.name AS course_name, c.level FROM faculty f LEFT JOIN faculty_course fc ON f.id = fc.faculty_id LEFT JOIN course c ON fc.course_id = c.id ORDER BY f.first_name ASC, f.last_name ASC");
     const faculties = result.rows;
     res.json(faculties);
+  } catch (err) {
+    console.error("Error executing Query : ", err);
+    res.json({'error': err});
+  }
+});
+
+app.post("/admin/faculty", async (req, res) => {
+  const id = req.body.id;
+  const fname = req.body.fname;
+  const lname = req.body.lname;
+  const qualification = req.body.qualification;
+  const dateJoined = req.body.dateJoined;
+  try {
+    const result = await db.query("INSERT INTO faculty VALUES($1,$2,$3,$4,$5) RETURNING *",[id,fname,lname,qualification,dateJoined]);
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error executing Query : ", err);
+    res.json({'error': err});
+  }
+});
+
+app.patch("/admin/faculty/:id", async (req, res) => {
+  const id = req.params.id;
+  const fname = req.body.fname;
+  const lname = req.body.lname;
+  const qualification = req.body.qualification;
+  const dateJoined = req.body.dateJoined;
+  try {
+    const result = await db.query("UPDATE faculty SET first_name = $1, last_name = $2, qualification = $3, date_joined = $4 WHERE id = $5 RETURNING *",[fname,lname,qualification,dateJoined,id]);
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error executing Query : ", err);
+    res.json({'error': err});
+  }
+});
+
+app.delete("/admin/faculty/:id", async (req, res) => {
+  try {
+    const result = await db.query("DELETE FROM faculty WHERE id = $1",[req.params.id]);
+    res.json(result.rowCount);
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
