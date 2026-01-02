@@ -179,6 +179,34 @@ app.delete("/admin/faculty/:id", async (req, res) => {
   }
 });
 
+// Admin -> faculty-course relation Section
+
+app.post("/admin/faculty_course", async (req,res) => {
+  try {
+    const result = await db.query("INSERT INTO faculty_course(faculty_id, course_id) VALUES($1,$2) ON CONFLICT DO NOTHING RETURNING *",[req.body.faculty_id,req.body.course_id]);
+    if (result.rowCount === 0) {
+      return res.status(409).json({ error: "Already assigned" });
+    }
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("Error executing Query : ", err);
+    res.json({'error': err});
+  }
+});
+
+app.delete("/admin/faculty/:facultyId/courses/:courseId", async (req,res) => {
+  try {
+    const result = await db.query("DELETE FROM faculty_course WHERE faculty_id = $1 AND course_id = $2",[req.params.facultyId,req.params.courseId]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Relation not found" });
+    }
+    res.json({ removed: true });
+  } catch (err) {
+    console.error("Error executing Query : ", err);
+    res.json({'error': err});
+  }
+});
+
 // Admin -> enquiry Section
 
 app.get("/admin/enquiry", async (req, res) => {
