@@ -24,14 +24,15 @@ app.use(express.static("public"));
 // Public Section
 
 app.get('/', (req, res) => {
-  res.send("Progress Classes Backend Running");
+  res.render("index.ejs");
 });
 
 app.get("/course", async (req, res) => {
   try {
     const result = await db.query("SELECT fc.course_id, c.name AS course_name, c.level, fc.faculty_id, f.first_name, f.last_name FROM faculty_course fc JOIN faculty f ON fc.faculty_id = f.id JOIN course c ON fc.course_id = c.id ORDER BY c.name ASC, CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END ASC");
     const courses = result.rows;
-    res.json(courses);
+    // res.json(courses);
+    res.render("course.ejs");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -42,7 +43,8 @@ app.get("/faculty", async (req, res) => {
   try {
     const result = await db.query("SELECT fc.faculty_id, f.first_name, f.last_name, f.qualification, f.date_joined, fc.course_id, c.name AS course_name, c.level FROM faculty_course fc JOIN faculty f ON fc.faculty_id = f.id JOIN course c ON fc.course_id = c.id ORDER BY f.first_name ASC, f.last_name ASC");
     const faculties = result.rows;
-    res.json(faculties);
+    // res.json(faculties);
+    res.render("faculty.ejs");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -53,7 +55,8 @@ app.get("/enquiry", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM enquiry WHERE is_visible AND is_answered ORDER BY created_at ASC");
     const enquiries = result.rows;
-    res.json(enquiries);
+    // res.json(enquiries);
+    res.render("enquiry.ejs");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
