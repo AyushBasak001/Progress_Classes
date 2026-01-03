@@ -57,3 +57,12 @@ CREATE TABLE enquiry (
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
   answered_at TIMESTAMPTZ
 );
+
+-- =========================
+-- Admin authentication table
+-- Stores admin password in hashed form
+-- =========================
+CREATE TABLE admin_auth (
+  id BOOLEAN PRIMARY KEY DEFAULT TRUE,  -- always TRUE, enforces single row
+  password_hash TEXT NOT NULL
+);
