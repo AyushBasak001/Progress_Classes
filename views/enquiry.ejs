@@ -1,6 +1,19 @@
 <%- include("partials/header.ejs") %>
 
-<h1>Progress Classes</h1>
-<p>Here are the enquiries:</p>
+<h1>Enquiries</h1>
+<div class="enquiry-container">
+    <% for( let index = 0; index < enquiryList.length; index++ ) { %>
+    <div class="enquiry-tab">
+        <p id="enquiry-question"><%= enquiryList[index].question %></p>
+        <p id="enquiry-answer"><%= enquiryList[index].answer %></p>
+        <p id="enquiry-name"><%= enquiryList[index].name %></p>
+    </div>
+    <% } %>
+    <form class="enquiry-tab" action="/enquiry" method="post">
+        <input type="text" name="question" placeholder="Your Question" required>
+        <input type="text" name="name" placeholder="Your Name" >
+        <button type="submit">Submit Enquiry</button>
+    </form>
+</div>
 
 <%- include("partials/footer.ejs") %>

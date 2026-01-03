@@ -1,3 +1,91 @@
 body {
-    background-color: po;
+    background-color: #FFF8DE;
+}
+
+.navbar{
+    background-color: #8CA9FF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.brand{
+    display: flex;
+    padding: 5px;
+}
+
+.brand-logo{
+    width: 3rem;
+    margin-right: 5px;
+    border-radius: 10px;
+}
+.brand-name{
+    font-size: larger;
+    margin: 0px;
+    align-self: center;
+}
+
+.navbar-list{
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 0px;
+}
+
+.nav-link{
+    padding-right: 20px;
+    font-size: large;
+    text-decoration: none;
+    color: black;
+}
+
+.nav-link:hover{
+    color: white;
+}
+
+footer{
+    background-color: #AAC4F5;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+    position: fixed;
+    width: calc(100% - 50px);
+}
+
+/* Enquiry page */
+
+.enquiry-container{
+    background-color: lightgreen;
+    display: flex;
+}
+
+.enquiry-tab{
+    background-color: white;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    max-width: 200px;
+    min-height: 140px;
+}
+
+#enquiry-question{
+    margin: 0px;
+    color: black;
+    font-weight: bold;
+}
+
+#enquiry-name{
+    margin: 0px;
+    color: grey;
+}
+
+.enquiry-tab input{
+    margin: 5px 0px;
+    border: 1px bold black;
+    padding: 0px;
+    min-height: 40px;
+    min-width: 196px;
+    border-radius: 10px;
 }

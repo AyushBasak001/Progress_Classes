@@ -1,6 +1,12 @@
 <%- include("partials/header.ejs") %>
 
-<h1>Progress Classes</h1>
+<h1>Our Faculties:</h1>
 <p>Here are the faculty available:</p>
+<% for( let index = 0; index < facultyList.length; index++ ) { %>
+    <h2>Faculty ID: <%= facultyList[index].faculty_id %></h2>
+    <p>Name: <%= facultyList[index].first_name +' '+ facultyList[index].last_name %></p>
+    <p>Qualification: <%= facultyList[index].qualification %></p>
+    <p>Date of Joining: <%= facultyList[index].date_joined %></p>
+<% } %>
 
 <%- include("partials/footer.ejs") %>

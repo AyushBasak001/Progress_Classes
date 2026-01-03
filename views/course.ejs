@@ -1,6 +1,11 @@
 <%- include("partials/header.ejs") %>
 
-<h1>Progress Classes</h1>
+<h1>Courses:</h1>
 <p>Here are the courses available:</p>
+<% for( let index = 0; index < courseList.length; index++ ) { %>
+    <h2>Course ID: <%= courseList[index].course_id %></h2>
+    <p>Name: <%= courseList[index].course_name %></p>
+    <p>Level: <%= courseList[index].level %></p>
+<% } %>
 
 <%- include("partials/footer.ejs") %>
