@@ -4,6 +4,7 @@ import pg from "pg";
 import env from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 3000;
@@ -20,6 +21,7 @@ db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(cookieParser());
 
 // Public Section
 
@@ -77,21 +79,21 @@ app.post("/enquiry", async (req, res) => {
 // Admin Section
 
 function adminAuth(req, res, next) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(401).json({ error: "No token provided" });
+  const token = req.cookies.admin_token;
+  if (!token) {
+    return res.redirect("/admin/login");
   }
-  const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (!decoded.admin) {
-      return res.status(403).json({ error: "Forbidden" });
+      return res.status(403).send("Forbidden");
     }
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Invalid or expired token" });
+    return res.redirect("/admin/login");
   }
 }
+
 
 //Admin login route
 app.post("/admin/login", async (req, res) => {
@@ -111,9 +113,16 @@ app.post("/admin/login", async (req, res) => {
     const token = jwt.sign(
       { admin: true },
       process.env.JWT_SECRET,
-      { expiresIn: "2h" }
+      { expiresIn: "1h" }
     );
-    res.json({ token });
+    // res.json({ token });
+    res.cookie("admin_token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      secure: false,
+      maxAge: 60 * 60 * 1000
+    });
+    res.redirect("/admin");
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Login failed" });
@@ -140,13 +149,13 @@ app.patch("/admin/password", adminAuth, async (req, res) => {
   }
 });
 
-// app.get('/admin/login', (req, res) => {
-//   res.send("Admin Login page");
-// });
+app.get('/admin/login', (req, res) => {
+  res.render("adminLogin.ejs");
+});
 
-// app.get('/admin', adminAuth, (req, res) => {
-//   res.send("Welcome admin");
-// });
+app.get('/admin', adminAuth, (req, res) => {
+  res.render("adminHome.ejs");
+});
 
 // Admin -> course Section
 
@@ -154,7 +163,8 @@ app.get("/admin/course", adminAuth, async (req, res) => {
   try {
     const result = await db.query("SELECT c.id AS course_id, c.name AS course_name, c.level, fc.faculty_id, f.first_name, f.last_name FROM course c LEFT JOIN faculty_course fc ON c.id = fc.course_id LEFT JOIN faculty f ON fc.faculty_id = f.id ORDER BY c.name ASC, CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END ASC");
     const courses = result.rows;
-    res.json(courses);
+    // res.json(courses);
+    res.render("adminCourse.ejs");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -200,7 +210,8 @@ app.get("/admin/faculty", adminAuth, async (req, res) => {
   try {
     const result = await db.query("SELECT f.id AS faculty_id, f.first_name, f.last_name, f.qualification, f.date_joined, fc.course_id, c.name AS course_name, c.level FROM faculty f LEFT JOIN faculty_course fc ON f.id = fc.faculty_id LEFT JOIN course c ON fc.course_id = c.id ORDER BY f.first_name ASC, f.last_name ASC");
     const faculties = result.rows;
-    res.json(faculties);
+    // res.json(faculties);
+    res.render("adminFaculty.ejs");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -281,7 +292,8 @@ app.get("/admin/enquiry", adminAuth, async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM enquiry ORDER BY created_at ASC");
     const enquiries = result.rows;
-    res.json(enquiries);
+    // res.json(enquiries);
+    res.render("adminEnquiry.ejs");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
