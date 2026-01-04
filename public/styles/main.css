@@ -89,3 +89,55 @@ footer{
     min-width: 196px;
     border-radius: 10px;
 }
+
+/* Course page */
+
+.course-container{
+    background-color: lightgreen;
+    display: flex;
+}
+
+.course-tab{
+    background-color: white;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    max-width: 200px;
+    min-height: 140px;
+}
+
+#course-id{
+    margin: 0px;
+    font-weight: bold;
+}
+
+#course-level{
+    margin: 0px;
+    color: grey;
+}
+
+/* Faculty page */
+
+.faculty-container{
+    background-color: lightgreen;
+    display: flex;
+}
+
+.faculty-tab{
+    background-color: white;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    max-width: 200px;
+    min-height: 140px;
+}
+
+#faculty-id{
+    margin: 0px;
+    font-weight: bold;
+}
+
+#faculty-qualification{
+    margin: 0px;
+    color: grey;
+}

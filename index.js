@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 
 app.get("/course", async (req, res) => {
   try {
-    const result = await db.query("SELECT fc.course_id, c.name AS course_name, c.level, fc.faculty_id, f.first_name, f.last_name FROM faculty_course fc JOIN faculty f ON fc.faculty_id = f.id JOIN course c ON fc.course_id = c.id ORDER BY c.name ASC, CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END ASC");
+    const result = await db.query("SELECT c.id, c.name, c.level, COALESCE(JSON_AGG(JSON_BUILD_OBJECT('id', f.id,'first_name', f.first_name,'last_name', f.last_name) ORDER BY f.first_name) FILTER (WHERE f.id IS NOT NULL), '[]') AS faculty FROM course c LEFT JOIN faculty_course fc ON fc.course_id = c.id LEFT JOIN faculty f ON f.id = fc.faculty_id GROUP BY c.id, c.name, c.level ORDER BY c.name ASC, CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END");
     const courses = result.rows;
     // res.json(courses);
     res.render("course.ejs", {courseList : courses});
@@ -41,7 +41,7 @@ app.get("/course", async (req, res) => {
 
 app.get("/faculty", async (req, res) => {
   try {
-    const result = await db.query("SELECT fc.faculty_id, f.first_name, f.last_name, f.qualification, f.date_joined, fc.course_id, c.name AS course_name, c.level FROM faculty_course fc JOIN faculty f ON fc.faculty_id = f.id JOIN course c ON fc.course_id = c.id ORDER BY f.first_name ASC, f.last_name ASC");
+    const result = await db.query("SELECT f.id,f.first_name,f.last_name,f.qualification,f.date_joined, COALESCE(JSON_AGG(JSON_BUILD_OBJECT('id', c.id,'name', c.name,'level', c.level)ORDER BY c.name,CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END) FILTER (WHERE c.id IS NOT NULL), '[]') AS courses FROM faculty f LEFT JOIN faculty_course fc ON fc.faculty_id = f.id LEFT JOIN course c ON c.id = fc.course_id GROUP BY f.id,f.first_name,f.last_name,f.qualification,f.date_joined ORDER BY f.first_name,f.last_name");
     const faculties = result.rows;
     // res.json(faculties);
     res.render("faculty.ejs", {facultyList : faculties});

@@ -1,11 +1,27 @@
 <%- include("partials/header.ejs") %>
 
 <h1>Courses:</h1>
-<p>Here are the courses available:</p>
-<% for( let index = 0; index < courseList.length; index++ ) { %>
-    <h2>Course ID: <%= courseList[index].course_id %></h2>
-    <p>Name: <%= courseList[index].course_name %></p>
-    <p>Level: <%= courseList[index].level %></p>
+<div class="course-container">
+    <% for( let index = 0; index < courseList.length; index++ ) { %>
+    <div class="course-tab">
+        <p id="course-id">Course ID: <%= courseList[index].id %></p>
+        <p id="course-name">Name: <%= courseList[index].name %></p>
+        <p id="course-level">Level: <%= courseList[index].level %></p>
+
+        <details class="faculty-dropdown">
+            <summary>View Faculty</summary>
+            <% if (courseList[index].faculty.length === 0) { %>
+                <p class="empty">No faculty assigned</p>
+            <% } else { %>
+                <ul>
+                <% courseList[index].faculty.forEach(f => { %>
+                    <li><%= f.id %> => <%= f.first_name %> <%= f.last_name %></li>
+                <% }) %>
+                </ul>
+            <% } %>
+        </details>
+    </div>
 <% } %>
+</div>
 
 <%- include("partials/footer.ejs") %>

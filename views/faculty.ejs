@@ -1,12 +1,27 @@
 <%- include("partials/header.ejs") %>
 
-<h1>Our Faculties:</h1>
-<p>Here are the faculty available:</p>
-<% for( let index = 0; index < facultyList.length; index++ ) { %>
-    <h2>Faculty ID: <%= facultyList[index].faculty_id %></h2>
-    <p>Name: <%= facultyList[index].first_name +' '+ facultyList[index].last_name %></p>
-    <p>Qualification: <%= facultyList[index].qualification %></p>
-    <p>Date of Joining: <%= facultyList[index].date_joined %></p>
+<h1>Faculties:</h1>
+<div class="faculty-container">
+    <% for( let index = 0; index < facultyList.length; index++ ) { %>
+    <div class="faculty-tab">
+        <p id="faculty-id">Faculty ID: <%= facultyList[index].id %></p>
+        <p id="faculty-name">Name: <%= facultyList[index].first_name %> <%= facultyList[index].last_name %></p>
+        <p id="faculty-qualification">Qualification: <%= facultyList[index].qualification %></p>
+
+        <details class="faculty-dropdown">
+            <summary>View Courses</summary>
+            <% if (facultyList[index].courses.length === 0) { %>
+                <p class="empty">No courses assigned</p>
+            <% } else { %>
+                <ul>
+                <% facultyList[index].courses.forEach(c => { %>
+                    <li><%= c.id %> => <%= c.name %> <%= c.level %></li>
+                <% }) %>
+                </ul>
+            <% } %>
+        </details>
+    </div>
 <% } %>
+</div>
 
 <%- include("partials/footer.ejs") %>
