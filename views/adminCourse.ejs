@@ -19,8 +19,8 @@
         </div>
         <!-- Buttons calling different methods -->
         <div>
-            <button type="button" onclick="updateCourse()">Update Course</button>
-            <button type="button" onclick="deleteCourse()">Delete Course</button>
+            <button type="button" onclick="updateCourse(this)">Update Course</button>
+            <button type="button" onclick="deleteCourse('<%= courseList[index].id %>')">Delete Course</button>
         </div>
         <details class="faculty-dropdown">
             <summary>View Faculty</summary>
@@ -36,11 +36,11 @@
         </details>
         <div>
             <label>Faculty ID:</label>
-            <input type="text" name="FacultyID" placeholder="Faculty ID">
+            <input type="text" name="facultyID" placeholder="Faculty ID">
         </div>
         <div>
-            <button type="button" onclick="addF_C()">Add Faculty</button>
-            <button type="button" onclick="deleteF_C()">Remove Faculty</button>
+            <button type="button" onclick="addF_C(this)">Add Faculty</button>
+            <button type="button" onclick="deleteF_C(this)">Remove Faculty</button>
         </div>
     </form>
 <% } %>
@@ -63,5 +63,119 @@
     </form>
 
 </div>
+
+<script>
+    
+async function updateCourse(btn) {
+  const form = btn.closest("form");
+  const id = form.querySelector("input[name='courseID']").value;
+  const name = form.querySelector("input[name='name']").value.trim();
+  const level = form.querySelector("input[name='level']").value.trim();
+
+  const payload = {
+    name: name,
+    level: level
+  };
+
+  try {
+    const res = await fetch(`/admin/course/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      alert("Successfully updated course. Please reload the page.");
+    } else {
+      alert("Failed to update Course");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+async function deleteCourse(id) {
+  if (!confirm("Are you sure you want to delete this course?")) return;
+
+  try {
+    const res = await fetch(`/admin/course/${id}`, {
+      method: "DELETE",
+      credentials: "same-origin"
+    });
+
+    if (res.ok) {
+      alert("Successfully deleted course. Please reload the page.");
+    } else {
+      alert("Failed to delete course");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+async function addF_C(btn){
+  const form = btn.closest("form");
+  const facultyID = form.querySelector("input[name='facultyID']").value;
+  const courseID = form.querySelector("input[name='courseID']").value;
+
+  if (!facultyID || !courseID) {
+    alert("Faculty ID and Course ID are required");
+    return;
+  }
+
+  try {
+    const res = await fetch("/admin/faculty_course", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        faculty_id: facultyID,
+        course_id: courseID
+      })
+    });
+    if (res.ok) {
+      alert("Successfully added faculty. Please reload the page.");
+    } else {
+      alert("Failed to add faculty");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+async function deleteF_C(btn){
+  const form = btn.closest("form");
+  const facultyID = form.querySelector("input[name='facultyID']").value;
+  const courseID = form.querySelector("input[name='courseID']").value;
+
+  if (!facultyID || !courseID) {
+    alert("Faculty ID and Course ID are required");
+    return;
+  }
+
+  try {
+    const res = await fetch(`/admin/faculty/${facultyID}/courses/${courseID}`, {
+      method: "DELETE",
+      credentials: "same-origin"
+    });
+    if (res.ok) {
+      alert("Successfully deleted faculty. Please reload the page.");
+    } else {
+      alert("Failed to delete faculty");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
+
+</script>
 
 <%- include("partials/adminFooter.ejs") %>

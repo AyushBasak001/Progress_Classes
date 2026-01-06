@@ -22,6 +22,8 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Public Section
 
@@ -187,7 +189,7 @@ app.post("/admin/course", adminAuth, async (req, res) => {
 app.patch("/admin/course/:id", adminAuth, async (req, res) => {
   try {
     const result = await db.query("UPDATE course SET name = $1, level = $2 WHERE id = $3 RETURNING *",[req.body.name,req.body.level,req.params.id]);
-    res.json(result.rows[0]);
+    // res.json(result.rows[0]);
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -197,7 +199,7 @@ app.patch("/admin/course/:id", adminAuth, async (req, res) => {
 app.delete("/admin/course/:id", adminAuth, async (req, res) => {
   try {
     const result = await db.query("DELETE FROM course WHERE id = $1",[req.params.id]);
-    res.json(result.rowCount);
+    // res.json(result.rowCount);
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -241,7 +243,7 @@ app.patch("/admin/faculty/:id", adminAuth, async (req, res) => {
   const dateJoined = req.body.dateJoined;
   try {
     const result = await db.query("UPDATE faculty SET first_name = $1, last_name = $2, qualification = $3, date_joined = $4 WHERE id = $5 RETURNING *",[fname,lname,qualification,dateJoined,id]);
-    res.json(result.rows[0]);
+    // res.json(result.rows[0]);
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -251,7 +253,7 @@ app.patch("/admin/faculty/:id", adminAuth, async (req, res) => {
 app.delete("/admin/faculty/:id", adminAuth, async (req, res) => {
   try {
     const result = await db.query("DELETE FROM faculty WHERE id = $1",[req.params.id]);
-    res.json(result.rowCount);
+    // res.json(result.rowCount);
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -266,7 +268,7 @@ app.post("/admin/faculty_course", adminAuth, async (req,res) => {
     if (result.rowCount === 0) {
       return res.status(409).json({ error: "Already assigned" });
     }
-    res.json(result.rows[0]);
+    // res.json(result.rows[0]);
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -279,7 +281,7 @@ app.delete("/admin/faculty/:facultyId/courses/:courseId", adminAuth, async (req,
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Relation not found" });
     }
-    res.json({ removed: true });
+    // res.json({ removed: true });
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -304,7 +306,7 @@ app.patch("/admin/enquiry/:id", adminAuth, async (req, res) => {
   if('answer' in req.body){
     try {
       const result = await db.query("UPDATE enquiry SET answer = $1, is_answered = true, answered_at = CURRENT_TIMESTAMP, is_visible = $2 WHERE id = $3 RETURNING *",[req.body.answer,req.body.is_visible,req.params.id]);
-      res.json(result.rows[0]);
+      // res.json(result.rows[0]);
     } catch (err) {
       console.error("Error executing Query : ", err);
       res.json({'error': err});
@@ -312,7 +314,7 @@ app.patch("/admin/enquiry/:id", adminAuth, async (req, res) => {
   } else{
     try {
       const result = await db.query("UPDATE enquiry SET answer = null, is_answered = false, answered_at = null, is_visible = $1 WHERE id = $2 RETURNING *",[req.body.is_visible,req.params.id]);
-      res.json(result.rows[0]);
+      // res.json(result.rows[0]);
     } catch (err) {
       console.error("Error executing Query : ", err);
       res.json({'error': err});
@@ -323,7 +325,7 @@ app.patch("/admin/enquiry/:id", adminAuth, async (req, res) => {
 app.delete("/admin/enquiry/:id", adminAuth, async (req, res) => {
   try {
     const result = await db.query("DELETE FROM enquiry WHERE id = $1",[req.params.id]);
-    res.json(result.rowCount);
+    // res.json(result.rowCount);
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
