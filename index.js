@@ -161,10 +161,10 @@ app.get('/admin', adminAuth, (req, res) => {
 
 app.get("/admin/course", adminAuth, async (req, res) => {
   try {
-    const result = await db.query("SELECT c.id AS course_id, c.name AS course_name, c.level, fc.faculty_id, f.first_name, f.last_name FROM course c LEFT JOIN faculty_course fc ON c.id = fc.course_id LEFT JOIN faculty f ON fc.faculty_id = f.id ORDER BY c.name ASC, CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END ASC");
+    const result = await db.query("SELECT c.id, c.name, c.level, COALESCE(JSON_AGG(JSON_BUILD_OBJECT('id', f.id,'first_name', f.first_name,'last_name', f.last_name) ORDER BY f.first_name) FILTER (WHERE f.id IS NOT NULL), '[]') AS faculty FROM course c LEFT JOIN faculty_course fc ON fc.course_id = c.id LEFT JOIN faculty f ON f.id = fc.faculty_id GROUP BY c.id, c.name, c.level ORDER BY c.name ASC, CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END");
     const courses = result.rows;
     // res.json(courses);
-    res.render("adminCourse.ejs");
+    res.render("adminCourse.ejs", {courseList : courses});
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -208,10 +208,10 @@ app.delete("/admin/course/:id", adminAuth, async (req, res) => {
 
 app.get("/admin/faculty", adminAuth, async (req, res) => {
   try {
-    const result = await db.query("SELECT f.id AS faculty_id, f.first_name, f.last_name, f.qualification, f.date_joined, fc.course_id, c.name AS course_name, c.level FROM faculty f LEFT JOIN faculty_course fc ON f.id = fc.faculty_id LEFT JOIN course c ON fc.course_id = c.id ORDER BY f.first_name ASC, f.last_name ASC");
+    const result = await db.query("SELECT f.id,f.first_name,f.last_name,f.qualification,f.date_joined, COALESCE(JSON_AGG(JSON_BUILD_OBJECT('id', c.id,'name', c.name,'level', c.level)ORDER BY c.name,CASE c.level WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 WHEN 'advanced' THEN 3 END) FILTER (WHERE c.id IS NOT NULL), '[]') AS courses FROM faculty f LEFT JOIN faculty_course fc ON fc.faculty_id = f.id LEFT JOIN course c ON c.id = fc.course_id GROUP BY f.id,f.first_name,f.last_name,f.qualification,f.date_joined ORDER BY f.first_name,f.last_name");
     const faculties = result.rows;
     // res.json(faculties);
-    res.render("adminFaculty.ejs");
+    res.render("adminFaculty.ejs", {facultyList : faculties});
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -293,7 +293,7 @@ app.get("/admin/enquiry", adminAuth, async (req, res) => {
     const result = await db.query("SELECT * FROM enquiry ORDER BY created_at ASC");
     const enquiries = result.rows;
     // res.json(enquiries);
-    res.render("adminEnquiry.ejs");
+    res.render("adminEnquiry.ejs", {enquiryList : enquiries});
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});

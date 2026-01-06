@@ -2,5 +2,14 @@
 
 <h1>Admin Enquiry</h1>
 <p>Here are the enquiries:</p>
+<div class="enquiry-container">
+    <% for( let index = 0; index < enquiryList.length; index++ ) { %>
+    <div class="enquiry-tab">
+        <p id="enquiry-question"><%= enquiryList[index].question %></p>
+        <p id="enquiry-answer"><%= enquiryList[index].answer %></p>
+        <p id="enquiry-name"><%= enquiryList[index].name %></p>
+    </div>
+    <% } %>
+</div>
 
 <%- include("partials/adminFooter.ejs") %>
