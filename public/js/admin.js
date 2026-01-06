@@ -112,7 +112,7 @@ async function deleteFacultyCourse(btn) {
     return alert("Faculty ID and Course ID are required");
   }
 
-  const success = await sendRequest(`/admin/faculty/${facultyID}/courses/${courseID}`, { method: "DELETE" });
+  const success = await sendRequest(`/admin/faculty_course/faculty/${facultyID}/course/${courseID}`, { method: "DELETE" });
   if (success) alert("Successfully deleted course. Please reload the page.");
 }
 
