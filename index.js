@@ -177,7 +177,7 @@ app.post("/admin/course", adminAuth, async (req, res) => {
   const level = req.body.level;
   try {
     const result = await db.query("INSERT INTO course VALUES($1,$2,$3) RETURNING *",[id,name,level]);
-    res.json(result.rows[0]);
+    res.redirect("/admin/course");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});
@@ -226,7 +226,7 @@ app.post("/admin/faculty", adminAuth, async (req, res) => {
   const dateJoined = req.body.dateJoined;
   try {
     const result = await db.query("INSERT INTO faculty VALUES($1,$2,$3,$4,$5) RETURNING *",[id,fname,lname,qualification,dateJoined]);
-    res.json(result.rows[0]);
+    res.redirect("/admin/faculty");
   } catch (err) {
     console.error("Error executing Query : ", err);
     res.json({'error': err});

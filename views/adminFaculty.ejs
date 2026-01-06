@@ -4,12 +4,29 @@
 <p>Here are the faculties:</p>
 <div class="faculty-container">
     <% for( let index = 0; index < facultyList.length; index++ ) { %>
-    <div class="faculty-tab">
-        <p id="faculty-id">Faculty ID: <%= facultyList[index].id %></p>
-        <p id="faculty-name">Name: <%= facultyList[index].first_name %> <%= facultyList[index].last_name %></p>
-        <p id="faculty-qualification">Qualification: <%= facultyList[index].qualification %></p>
-
-        <details class="faculty-dropdown">
+    <form class="faculty-tab">
+        <div>
+            <label>Faculty ID:</label>
+            <input type="text" name="facultyID" value="<%= facultyList[index].id %>" readonly>
+        </div>
+        <div>
+            <label>First Name:</label>
+            <input type="text" name="fname" placeholder="First Name" value="<%= facultyList[index].first_name %>">
+        </div>
+        <div>
+            <label>Last Name:</label>
+            <input type="text" name="lname" placeholder="Last Name" value="<%= facultyList[index].last_name %>">
+        </div>
+        <div>
+            <label>Qualification:</label>
+            <input type="text" name="qualification" placeholder="Qualification" value="<%= facultyList[index].qualification %>">
+        </div>
+        <!-- Buttons calling different methods -->
+        <div>
+            <button type="button" onclick="updateFaculty()">Update Faculty</button>
+            <button type="button" onclick="deleteFaculty()">Delete Faculty</button>
+        </div>
+        <details class="course-dropdown">
             <summary>View Courses</summary>
             <% if (facultyList[index].courses.length === 0) { %>
                 <p class="empty">No courses assigned</p>
@@ -21,8 +38,40 @@
                 </ul>
             <% } %>
         </details>
-    </div>
+        <div>
+            <label>Course ID:</label>
+            <input type="text" name="courseID" placeholder="Course ID">
+        </div>
+        <div>
+            <button type="button" onclick="addF_C()">Add Course</button>
+            <button type="button" onclick="deleteF_C()">Remove Course</button>
+        </div>
+    </form>
 <% } %>
+    <form class="faculty-tab" action="/admin/faculty" method="post">
+        <div>
+            <label>Faculty ID:</label>
+            <input type="text" name="id" placeholder="Faculty ID" required>
+        </div>
+        <div>
+            <label>First Name:</label>
+            <input type="text" name="fname" placeholder="First Name" required>
+        </div>
+        <div>
+            <label>Last Name:</label>
+            <input type="text" name="lname" placeholder="Last Name" required>
+        </div>
+        <div>
+            <label>Qualification:</label>
+            <input type="text" name="qualification" placeholder="Qualification" required>
+        </div>
+        <div>
+            <label>dateJoined:</label>
+            <input type="date" name="dateJoined" required>
+        </div>
+        <button type="submit">Add Faculty</button>
+    </form>
+
 </div>
 
 <%- include("partials/adminFooter.ejs") %>

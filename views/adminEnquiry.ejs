@@ -4,11 +4,32 @@
 <p>Here are the enquiries:</p>
 <div class="enquiry-container">
     <% for( let index = 0; index < enquiryList.length; index++ ) { %>
-    <div class="enquiry-tab">
-        <p id="enquiry-question"><%= enquiryList[index].question %></p>
-        <p id="enquiry-answer"><%= enquiryList[index].answer %></p>
-        <p id="enquiry-name"><%= enquiryList[index].name %></p>
-    </div>
+    <form class="enquiry-tab">
+        <input type="hidden" name="id" value="<%= enquiryList[index].id %>">
+        <div>
+            <label>Question:</label>
+            <input type="text" value="<%= enquiryList[index].question %>" readonly>
+        </div>
+        <div>
+            <label>Answer:</label>
+            <input type="text" name="answer" placeholder="Give answer" value="<%= enquiryList[index].answer %>">
+        </div>
+        <div>
+            <label>User Name:</label>
+            <input type="text" value="<%= enquiryList[index].name %>" readonly>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" id="isVisible" name="is_visible" <%= enquiryList[index].is_visible ? 'checked' : '' %>>
+                Visible
+            </label>
+        </div>
+        <!-- Buttons calling different methods -->
+        <div>
+            <button type="button" onclick="updateEnquiry()">Update</button>
+            <button type="button" onclick="deleteEnquiry()">Delete</button>
+        </div>
+    </form>
     <% } %>
 </div>
 
