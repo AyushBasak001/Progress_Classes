@@ -1,0 +1,81 @@
+/* =====================
+   Tabs (Cards)
+===================== */
+.tab {
+  max-width: 900px;
+  margin: 2.5rem auto;
+  padding: 2rem 2.5rem;
+  background-color: var(--tab-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.tab h2 {
+  margin-top: 0;
+  color: var(--primary-blue);
+  font-size: 1.6rem;
+}
+
+.tab p {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+/* =====================
+   Hero Tab (Highlight)
+===================== */
+.hero-tab {
+  background-color: var(--light-blue);
+  border-left: 6px solid var(--primary-blue);
+}
+
+.hero-tab h2 {
+  font-size: 1.8rem;
+}
+
+/* =====================
+   Lists
+===================== */
+.tab ul {
+  padding-left: 1.2rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.tab li {
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+/* =====================
+   Links / Buttons
+===================== */
+.tab a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: var(--button-bg);
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.tab a:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-1px);
+}
+
+/* =====================
+   Responsive
+===================== */
+@media (max-width: 768px) {
+  .title h1 {
+    font-size: 2.2rem;
+  }
+
+  .tab {
+    margin: 1.5rem 1rem;
+    padding: 1.5rem;
+  }
+}

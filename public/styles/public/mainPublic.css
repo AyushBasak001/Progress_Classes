@@ -1,0 +1,106 @@
+/* =====================
+   Global Variables
+===================== */
+:root {
+  --bg-color: #f8fbff;
+  --primary-blue: #1f4fd8;
+  --light-blue: #e9f0ff;
+  --tab-bg: #ffffff;
+  --text-dark: #1f2937;
+  --text-muted: #4b5563;
+  --border-color: #dbeafe;
+  --button-bg: #2563eb;
+  --button-hover: #1e40af;
+}
+
+/* =====================
+   Base Styles
+===================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+/* =====================
+   Title Section
+===================== */
+.title {
+  text-align: left;
+  padding: 1rem 1rem;
+  background: linear-gradient(135deg, var(--primary-blue), #3b82f6);
+  color: white;
+}
+
+.title-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+.title h1 {
+  margin: 0;
+  font-size: 2.8rem;
+  letter-spacing: 1px;
+}
+
+/* =====================
+   Footer
+===================== */
+.footer {
+  margin-top: 4rem;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background-color: #eef2ff;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer p {
+  margin: 0.4rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+/* =====================
+  Additional Page Titles
+===================== */
+
+.page-title {
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--primary-blue);
+}
+
+.content-list {
+  max-width: 1100px;           /* a bit wider for 2 cards */
+  margin: auto;
+  padding: 0 1rem;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.8rem;
+}
+
+@media (max-width: 768px) {
+  .content-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+

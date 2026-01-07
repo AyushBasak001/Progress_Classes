@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="/styles/public/mainPublic.css">
+
+    <!-- Page-specific CSS -->
+    <% if (typeof pageCss !== "undefined") { %>
+        <link rel="stylesheet" href="<%= pageCss %>">
+    <% } %>
+
+    <title>Progress Classes</title>
+</head>
+<body>
+
+<div class="title">
+    <a href="/" class="title-link">
+        <h1>Progress Classes</h1>
+    </a>
+</div>

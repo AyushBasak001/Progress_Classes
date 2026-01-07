@@ -1,27 +1,36 @@
-<%- include("partials/header.ejs") %>
+<%- include("partials/headerPublic.ejs", {pageCss: "/styles/public/coursePublic.css"}) %>
 
-<h1>Courses:</h1>
-<div class="course-container">
-    <% for( let index = 0; index < courseList.length; index++ ) { %>
-    <div class="course-tab">
-        <p id="course-id">Course ID: <%= courseList[index].id %></p>
-        <p id="course-name">Name: <%= courseList[index].name %></p>
-        <p id="course-level">Level: <%= courseList[index].level %></p>
+    <h2 class="page-title">Courses</h2>
 
-        <details class="faculty-dropdown">
-            <summary>View Faculty</summary>
-            <% if (courseList[index].faculty.length === 0) { %>
-                <p class="empty">No faculty assigned</p>
-            <% } else { %>
-                <ul>
-                <% courseList[index].faculty.forEach(f => { %>
-                    <li><%= f.id %> => <%= f.first_name %> <%= f.last_name %></li>
-                <% }) %>
+    <div class="content-list">
+    <% for (let index = 0; index < courseList.length; index++) { %>
+        <div class="course-card">
+            <div class="course-header">
+                <span class="course-id">ID: <%= courseList[index].id %></span>
+                <h2 class="course-name"><%= courseList[index].name %></h2>
+                <span class="course-level"><%= courseList[index].level %></span>
+            </div>
+
+            <details class="course-faculty">
+                <summary>Assigned Faculty</summary>
+
+                <% if (courseList[index].faculty.length === 0) { %>
+                <p class="empty-text">No faculty assigned</p>
+                <% } else { %>
+                <ul class="faculty-list">
+                    <% courseList[index].faculty.forEach(f => { %>
+                    <li class="faculty-item">
+                        <span class="faculty-id"><%= f.id %></span>
+                        <span class="faculty-name">
+                        <%= f.first_name %> <%= f.last_name %>
+                        </span>
+                    </li>
+                    <% }) %>
                 </ul>
-            <% } %>
-        </details>
+                <% } %>
+            </details>
+        </div>
+    <% } %>
     </div>
-<% } %>
-</div>
 
-<%- include("partials/footer.ejs") %>
+<%- include("partials/footerPublic.ejs") %>

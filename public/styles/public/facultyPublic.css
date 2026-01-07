@@ -1,0 +1,52 @@
+.faculty-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+.faculty-header {
+  margin-bottom: 1rem;
+}
+
+.faculty-id {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.faculty-name {
+  margin: 0.3rem 0;
+  color: var(--primary-blue);
+}
+
+.faculty-qualification {
+  display: inline-block;
+  background: var(--light-blue);
+  color: var(--primary-blue);
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.faculty-courses summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--button-bg);
+  margin-top: 1rem;
+}
+
+.course-list-inner {
+  margin-top: 0.8rem;
+  padding-left: 1.2rem;
+}
+
+.course-item {
+  margin-bottom: 0.4rem;
+}
+
+.course-id {
+  font-weight: 600;
+  margin-right: 0.4rem;
+}

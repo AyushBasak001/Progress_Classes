@@ -1,19 +1,49 @@
-<%- include("partials/header.ejs") %>
+<%- include("partials/headerPublic.ejs", {pageCss: "/styles/public/enquiryPublic.css"}) %>
 
-<h1>Enquiries</h1>
-<div class="enquiry-container">
-    <% for( let index = 0; index < enquiryList.length; index++ ) { %>
-    <div class="enquiry-tab">
-        <p id="enquiry-question"><%= enquiryList[index].question %></p>
-        <p id="enquiry-answer"><%= enquiryList[index].answer %></p>
-        <p id="enquiry-name"><%= enquiryList[index].name %></p>
+<h2 class="page-title">Enquiries</h2>
+
+<div class="enquiry-page">
+    <div class="enquiry-list">
+        <% for (let index = 0; index < enquiryList.length; index++) { %>
+
+        <div class="enquiry-card">
+
+            <p class="enquiry-question">
+            Q. <%= enquiryList[index].question %>
+            </p>
+
+            <% if (enquiryList[index].answer) { %>
+            <p class="enquiry-answer">
+                <strong>Answer:</strong> <%= enquiryList[index].answer %>
+            </p>
+            <% } else { %>
+            <p class="empty-text">Answer pending</p>
+            <% } %>
+
+            <p class="enquiry-author">
+            — <%= enquiryList[index].name || "Anonymous" %>
+            </p>
+
+        </div>
+
+        <% } %>
     </div>
-    <% } %>
-    <form class="enquiry-tab" action="/enquiry" method="post">
-        <input type="text" name="question" placeholder="Your Question" required>
-        <input type="text" name="name" placeholder="Your Name" >
+
+    <form class="enquiry-form" action="/enquiry" method="post">
+        <h2>Ask a Question</h2>
+        <input
+        type="text"
+        name="question"
+        placeholder="Type your question here"
+        required
+        >
+        <input
+        type="text"
+        name="name"
+        placeholder="Your name (optional)"
+        >
         <button type="submit">Submit Enquiry</button>
     </form>
 </div>
-
-<%- include("partials/footer.ejs") %>
+    
+<%- include("partials/footerPublic.ejs") %>
