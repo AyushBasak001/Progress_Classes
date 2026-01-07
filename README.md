@@ -149,20 +149,57 @@ Uses nodemon
 npm start
 ```
 
+## 🔐 Admin Password Initialization (One-Time Setup)
+
+This project uses single-admin authentication by design.
+The admin credentials are not seeded automatically for security reasons.
+
+An admin password must be initialized once using a CLI utility.
+
+### 📄 Script Location
+```bash
+utils/initAdmin.js
+```
+
+This script:
+
+Accepts a plain password as a CLI argument
+
+Hashes it using bcrypt
+
+Stores the hash in the admin_auth table
+
+Enforces single-admin behavior using a fixed primary key
+
+### ▶️ How to Initialize Admin Password
+
+⚠️ Run this only once (both locally or after deployment)
+
+1. Ensure your `.env` is correctly set up with DB credentials.
+
+For cloud databases (e.g., Render), SSL is required and is already handled in the script.
+
+2. Run the script from project root
+```bash
+node utils/initAdmin.js YourStrongAdminPassword
+```
+
+Example:
+```bash
+node utils/initAdmin.js Admin@12345
+```
+
+Expected output:
+```bash
+✅ Admin password initialized
+```
+
 ## 🚧 Limitations & Notes
 
 - No user authentication (public access by design)
 - Single admin only
 - No payments or advanced scheduling
 - Built strictly as a learning & demonstration project
-
-## 🔮 Possible Future Improvements
-
-- Multi-admin support
-- User accounts
-- Role-based access control
-- UI/UX enhancements
-- API versioning
 
 ## 📜 License
 
@@ -172,4 +209,3 @@ This project is intended for learning and demonstration purposes.
 
 **Ayush Basak**  
 B.Tech, NIT Raipur
-```
