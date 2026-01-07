@@ -1,81 +1,89 @@
-<%- include("partials/adminHeader.ejs") %>
+<%- include("partials/headerAdmin.ejs") %>
+<body>
+  
+<h1 class="admin-page-title">Admin · Faculties</h1>
+<p class="admin-subtitle">Manage faculty records and course assignments</p>
 
-<h1>Admin Faculties</h1>
-<p>Here are the faculties:</p>
-<div class="faculty-container">
-    <% for( let index = 0; index < facultyList.length; index++ ) { %>
-    <form class="faculty-tab">
-        <div>
-            <label>Faculty ID:</label>
-            <input type="text" name="facultyID" value="<%= facultyList[index].id %>" readonly>
-        </div>
-        <div>
-            <label>First Name:</label>
-            <input type="text" name="fname" placeholder="First Name" value="<%= facultyList[index].first_name %>">
-        </div>
-        <div>
-            <label>Last Name:</label>
-            <input type="text" name="lname" placeholder="Last Name" value="<%= facultyList[index].last_name %>">
-        </div>
-        <div>
-            <label>Qualification:</label>
-            <input type="text" name="qualification" placeholder="Qualification" value="<%= facultyList[index].qualification %>">
-        </div>
-        <div>
-            <label>dateJoined:</label>
-            <input type="date" name="dateJoined" value="<%= facultyList[index].date_joined ? facultyList[index].date_joined.toISOString().split('T')[0] : '' %>">
-        </div>
-        <!-- Buttons calling different methods -->
-        <div>
-            <button type="button" onclick="updateFaculty(this)">Update Faculty</button>
-            <button type="button" onclick="deleteFaculty('<%= facultyList[index].id %>')">Delete Faculty</button>
-        </div>
-        <details class="course-dropdown">
-            <summary>View Courses</summary>
-            <% if (facultyList[index].courses.length === 0) { %>
-                <p class="empty">No courses assigned</p>
-            <% } else { %>
-                <ul>
-                <% facultyList[index].courses.forEach(c => { %>
-                    <li><%= c.id %> => <%= c.name %> <%= c.level %></li>
-                <% }) %>
-                </ul>
-            <% } %>
-        </details>
-        <div>
-            <label>Course ID:</label>
-            <input type="text" name="courseID" placeholder="Course ID">
-        </div>
-        <div>
-            <button type="button" onclick="addFacultyCourse(this)">Add Course</button>
-            <button type="button" onclick="deleteFacultyCourse(this)">Remove Course</button>
-        </div>
-    </form>
-<% } %>
-    <form class="faculty-tab" action="/admin/faculty" method="post">
-        <div>
-            <label>Faculty ID:</label>
-            <input type="text" name="id" placeholder="Faculty ID" required>
-        </div>
-        <div>
-            <label>First Name:</label>
-            <input type="text" name="fname" placeholder="First Name" required>
-        </div>
-        <div>
-            <label>Last Name:</label>
-            <input type="text" name="lname" placeholder="Last Name" required>
-        </div>
-        <div>
-            <label>Qualification:</label>
-            <input type="text" name="qualification" placeholder="Qualification" required>
-        </div>
-        <div>
-            <label>dateJoined:</label>
-            <input type="date" name="dateJoined" required>
-        </div>
-        <button type="submit">Add Faculty</button>
-    </form>
+<div class="admin-grid">
+
+  <% for (let index = 0; index < facultyList.length; index++) { %>
+
+  <form class="admin-card admin-faculty-card"
+        data-faculty-id="<%= facultyList[index].id %>">
+
+    <div class="admin-card-header">
+      <span class="admin-id">ID: <%= facultyList[index].id %></span>
+      <div class="admin-actions">
+        <button type="button" class="btn-primary" onclick="updateFaculty(this)">Update</button>
+        <button type="button" class="btn-danger" onclick="deleteFaculty('<%= facultyList[index].id %>')">Delete</button>
+      </div>
+    </div>
+
+    <div class="admin-form-grid">
+      <div>
+        <label>First Name</label>
+        <input type="text" name="fname" value="<%= facultyList[index].first_name %>">
+      </div>
+
+      <div>
+        <label>Last Name</label>
+        <input type="text" name="lname" value="<%= facultyList[index].last_name %>">
+      </div>
+
+      <div>
+        <label>Qualification</label>
+        <input type="text" name="qualification" value="<%= facultyList[index].qualification %>">
+      </div>
+
+      <div>
+        <label>Date Joined</label>
+        <input
+          type="date"
+          name="dateJoined"
+          value="<%= facultyList[index].date_joined ? facultyList[index].date_joined.toISOString().split('T')[0] : '' %>"
+        >
+      </div>
+    </div>
+
+    <details class="admin-details">
+      <summary>Assigned Courses</summary>
+
+      <% if (facultyList[index].courses.length === 0) { %>
+        <p class="empty-text">No courses assigned</p>
+      <% } else { %>
+        <ul class="admin-list">
+          <% facultyList[index].courses.forEach(c => { %>
+            <li><strong><%= c.id %></strong> — <%= c.name %> (<%= c.level %>)</li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </details>
+
+    <div class="admin-inline-actions">
+      <input type="text" name="courseID" placeholder="Course ID">
+      <button type="button" data-mode="course-to-faculty" class="btn-secondary" onclick="addCourseToFaculty(this)">Add</button>
+      <button type="button" data-mode="course-to-faculty" class="btn-warning" onclick="deleteCourseFromFaculty(this)">Remove</button>
+    </div>
+
+  </form>
+
+  <% } %>
+
+  <!-- Add Faculty -->
+  <form class="admin-card admin-add-card" action="/admin/faculty" method="post">
+    <h3>Add New Faculty</h3>
+
+    <div class="admin-form-grid">
+      <input type="text" name="id" placeholder="Faculty ID" required>
+      <input type="text" name="fname" placeholder="First Name" required>
+      <input type="text" name="lname" placeholder="Last Name" required>
+      <input type="text" name="qualification" placeholder="Qualification" required>
+      <input type="date" name="dateJoined" required>
+    </div>
+
+    <button type="submit" class="btn-primary">Add Faculty</button>
+  </form>
 
 </div>
 
-<%- include("partials/adminFooter.ejs") %>
+<%- include("partials/footerAdmin.ejs") %>

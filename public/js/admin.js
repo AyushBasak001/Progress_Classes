@@ -31,7 +31,9 @@ async function sendRequest(url, options) {
 // --------------------
 async function updateCourse(btn) {
   const form = btn.closest("form");
-  const id = form.querySelector("input[name='courseID']").value;
+  
+  const idText = form.querySelector(".admin-id").textContent;
+  const id = idText.replace("ID:", "").trim();
   const payload = {
     name: form.querySelector("input[name='name']").value.trim(),
     level: form.querySelector("input[name='level']").value.trim()
@@ -58,7 +60,9 @@ async function deleteCourse(id) {
 // --------------------
 async function updateFaculty(btn) {
   const form = btn.closest("form");
-  const id = form.querySelector("input[name='facultyID']").value;
+
+  const idText = form.querySelector(".admin-id").textContent;
+  const id = idText.replace("ID:", "").trim();
   const payload = {
     fname: form.querySelector("input[name='fname']").value.trim(),
     lname: form.querySelector("input[name='lname']").value.trim(),
@@ -85,10 +89,12 @@ async function deleteFaculty(id) {
 // --------------------
 // Faculty-Course relation
 // --------------------
-async function addFacultyCourse(btn) {
+
+async function addFacultyToCourse(btn) {
   const form = btn.closest("form");
-  const facultyID = form.querySelector("input[name='facultyID']").value;
-  const courseID = form.querySelector("input[name='courseID']").value;
+
+  const facultyID = form.querySelector("input[name='facultyID']").value.trim();
+  const courseID  = form.dataset.courseId;
 
   if (!facultyID || !courseID) {
     return alert("Faculty ID and Course ID are required");
@@ -97,23 +103,71 @@ async function addFacultyCourse(btn) {
   const success = await sendRequest("/admin/faculty_course", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ faculty_id: facultyID, course_id: courseID })
+    body: JSON.stringify({
+      faculty_id: facultyID,
+      course_id: courseID
+    })
   });
 
-  if (success) alert("Successfully added course. Please reload the page.");
+  if (success) alert("Faculty added to course successfully.");
 }
 
-async function deleteFacultyCourse(btn) {
+async function deleteFacultyFromCourse(btn) {
   const form = btn.closest("form");
-  const facultyID = form.querySelector("input[name='facultyID']").value;
-  const courseID = form.querySelector("input[name='courseID']").value;
+
+  const facultyID = form.querySelector("input[name='facultyID']").value.trim();
+  const courseID  = form.dataset.courseId;
 
   if (!facultyID || !courseID) {
     return alert("Faculty ID and Course ID are required");
   }
 
-  const success = await sendRequest(`/admin/faculty_course/faculty/${facultyID}/course/${courseID}`, { method: "DELETE" });
-  if (success) alert("Successfully deleted course. Please reload the page.");
+  const success = await sendRequest(
+    `/admin/faculty_course/faculty/${facultyID}/course/${courseID}`,
+    { method: "DELETE" }
+  );
+
+  if (success) alert("Faculty removed from course successfully.");
+}
+
+async function addCourseToFaculty(btn) {
+  const form = btn.closest("form");
+
+  const courseID  = form.querySelector("input[name='courseID']").value.trim();
+  const facultyID = form.dataset.facultyId;
+
+  if (!facultyID || !courseID) {
+    return alert("Faculty ID and Course ID are required");
+  }
+
+  const success = await sendRequest("/admin/faculty_course", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      faculty_id: facultyID,
+      course_id: courseID
+    })
+  });
+
+  if (success) alert("Course added to faculty successfully.");
+}
+
+async function deleteCourseFromFaculty(btn) {
+  const form = btn.closest("form");
+
+  const courseID  = form.querySelector("input[name='courseID']").value.trim();
+  const facultyID = form.dataset.facultyId;
+
+  if (!facultyID || !courseID) {
+    return alert("Faculty ID and Course ID are required");
+  }
+
+  const success = await sendRequest(
+    `/admin/faculty_course/faculty/${facultyID}/course/${courseID}`,
+    { method: "DELETE" }
+  );
+
+  if (success) alert("Course removed from faculty successfully.");
 }
 
 // --------------------
@@ -122,7 +176,7 @@ async function deleteFacultyCourse(btn) {
 async function updateEnquiry(btn) {
   const form = btn.closest("form");
   const id = form.querySelector("input[name='id']").value.trim();
-  const answer = form.querySelector("input[name='answer']").value.trim();
+  const answer = form.querySelector("textarea[name='answer']").value.trim();
   const isVisible = form.querySelector("input[name='is_visible']").checked;
 
   const payload = { is_visible: isVisible };

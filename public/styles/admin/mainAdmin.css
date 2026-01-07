@@ -1,0 +1,172 @@
+/* =====================
+   Global Variables
+===================== */
+:root {
+  --bg-color: #f8fbff;
+  --primary-blue: #1f4fd8;
+  --light-blue: #e9f0ff;
+  --tab-bg: #ffffff;
+  --text-dark: #1f2937;
+  --text-muted: #4b5563;
+  --border-color: #dbeafe;
+  --button-bg: #2563eb;
+  --button-hover: #1e40af;
+}
+
+body {
+  background-color: var(--bg-color);
+}
+
+/* =====================
+   Footer Navigation
+===================== */
+
+.footer-nav {
+  margin-top: 4rem;
+  padding: 1.5rem 1rem;
+  background-color: #eef2ff;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 0.6rem;
+}
+
+.footer-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+.footer-copy {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* =====================
+   Admin Faculty-Course-Enquiry Page
+===================== */
+
+.admin-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.admin-grid {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1rem;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+}
+
+@media (max-width: 900px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-card {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.2rem 1.4rem;
+}
+
+.admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.admin-id {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.admin-actions button {
+  margin-left: 0.4rem;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.admin-form-grid input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.admin-details summary {
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.admin-list {
+  padding-left: 1.2rem;
+}
+
+.admin-inline-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.admin-inline-actions input {
+  flex: 1;
+}
+
+/* =====================
+   Buttons
+===================== */
+
+.btn-primary {
+  background: var(--button-bg);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.btn-secondary {
+  background: #64748b;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.btn-warning {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}

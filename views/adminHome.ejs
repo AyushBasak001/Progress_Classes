@@ -1,6 +1,39 @@
-<%- include("partials/adminHeader.ejs") %>
+<%- include("partials/headerAdmin.ejs", {pageCss: "/styles/admin/homeAdmin.css"}) %>
+<body>
+  
+<h1 class="admin-page-title">Admin Dashboard</h1>
+<p class="admin-subtitle">Quick access to management sections</p>
 
-<h1>Progress Classes</h1>
-<p>Welcome Admin!!</p>
+<div class="admin-dashboard-grid">
 
-<%- include("partials/adminFooter.ejs") %>
+  <!-- Faculties -->
+  <a href="/admin/faculty" class="dashboard-card">
+    <h2>Faculties</h2>
+    <p>Manage faculty profiles, qualifications, and course assignments.</p>
+    <span class="dashboard-action">Manage Faculties →</span>
+  </a>
+
+  <!-- Courses -->
+  <a href="/admin/course" class="dashboard-card">
+    <h2>Courses</h2>
+    <p>Create, update, and organize courses and levels.</p>
+    <span class="dashboard-action">Manage Courses →</span>
+  </a>
+
+  <!-- Enquiries -->
+  <a href="/admin/enquiry" class="dashboard-card">
+    <h2>Enquiries</h2>
+    <p>Review questions, publish answers, and control visibility.</p>
+    <span class="dashboard-action">Moderate Enquiries →</span>
+  </a>
+
+  <!-- Filler / Placeholder -->
+  <div class="dashboard-card dashboard-placeholder">
+    <h2>System Status</h2>
+    <p>Admin panel operational. No pending system alerts.</p>
+    <span class="dashboard-muted">Last login: Today</span>
+  </div>
+
+</div>
+
+<%- include("partials/footerAdmin.ejs") %>

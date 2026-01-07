@@ -1,0 +1,40 @@
+/* =====================
+   Admin Enquiry
+===================== */
+
+.admin-enquiry-card textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.6rem;
+  resize: vertical;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: #f9fbff;
+  font-family: inherit;
+}
+
+.admin-enquiry-card textarea[readonly] {
+  background-color: #f1f5ff;
+  color: var(--text-muted);
+}
+
+.admin-enquiry-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.admin-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

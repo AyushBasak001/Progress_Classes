@@ -30,12 +30,12 @@ export const createFacultyCourseLink = async (req, res) => {
 }
 
 export const deleteFacultyCourseLink = async (req, res) => {
-  const { facultyId, courseId } = req.params;
+  const { facultyID, courseID } = req.params;
 
   try {
     const result = await db.query(
       "DELETE FROM faculty_course WHERE faculty_id = $1 AND course_id = $2",
-      [facultyId, courseId]
+      [facultyID, courseID]
     );
 
     if (result.rowCount === 0) {

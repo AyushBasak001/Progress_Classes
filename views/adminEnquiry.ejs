@@ -1,36 +1,53 @@
-<%- include("partials/adminHeader.ejs") %>
+<%- include("partials/headerAdmin.ejs", {pageCss: "/styles/admin/enquiryAdmin.css"}) %>
+<body>
+  
+<h1 class="admin-page-title">Admin · Enquiries</h1>
+<p class="admin-subtitle">Review, answer, and control public visibility</p>
 
-<h1>Admin Enquiry</h1>
-<p>Here are the enquiries:</p>
-<div class="enquiry-container">
-    <% for( let index = 0; index < enquiryList.length; index++ ) { %>
-    <form class="enquiry-tab">
-        <input type="hidden" name="id" value="<%= enquiryList[index].id %>">
-        <div>
-            <label>Question:</label>
-            <input type="text" value="<%= enquiryList[index].question %>" readonly>
-        </div>
-        <div>
-            <label>Answer:</label>
-            <input type="text" name="answer" placeholder="Give answer" value="<%= enquiryList[index].answer %>">
-        </div>
-        <div>
-            <label>User Name:</label>
-            <input type="text" value="<%= enquiryList[index].name %>" readonly>
-        </div>
-        <div>
-            <label>
-                <input type="checkbox" id="isVisible" name="is_visible" <%= enquiryList[index].is_visible ? 'checked' : '' %>>
-                Visible
-            </label>
-        </div>
-        <!-- Buttons calling different methods -->
-        <div>
-            <button type="button" onclick="updateEnquiry(this)">Update</button>
-            <button type="button" onclick="deleteEnquiry('<%= enquiryList[index].id %>')">Delete</button>
-        </div>
-    </form>
-    <% } %>
+<div class="admin-grid">
+
+  <% for (let index = 0; index < enquiryList.length; index++) { %>
+
+  <form class="admin-card admin-enquiry-card">
+
+    <input type="hidden" name="id" value="<%= enquiryList[index].id %>">
+
+    <div class="admin-card-header">
+      <span class="admin-id">Enquiry #<%= enquiryList[index].id %></span>
+
+      <div class="admin-actions">
+        <button type="button" class="btn-primary" onclick="updateEnquiry(this)">Update</button>
+        <button type="button" class="btn-danger" onclick="deleteEnquiry('<%= enquiryList[index].id %>')">Delete</button>
+      </div>
+    </div>
+
+    <div class="admin-enquiry-block">
+      <label>Question</label>
+      <textarea readonly><%= enquiryList[index].question %></textarea>
+    </div>
+
+    <div class="admin-enquiry-block">
+      <label>Answer</label>
+      <textarea name="answer" placeholder="Write answer here..."><%= enquiryList[index].answer || "" %></textarea>
+    </div>
+
+    <div class="admin-meta-row">
+      <div>
+        <label>User</label>
+        <input type="text" value="<%= enquiryList[index].name %>" readonly>
+      </div>
+
+      <label class="checkbox-label">
+        <input type="checkbox" name="is_visible"
+          <%= enquiryList[index].is_visible ? "checked" : "" %>>
+        Visible to public
+      </label>
+    </div>
+
+  </form>
+
+  <% } %>
+
 </div>
 
-<%- include("partials/adminFooter.ejs") %>
+<%- include("partials/footerAdmin.ejs") %>
