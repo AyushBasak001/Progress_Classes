@@ -18,38 +18,35 @@ body {
 }
 
 /* =====================
-   Footer Navigation
+   Footer
 ===================== */
-
-.footer-nav {
+.footer {
   margin-top: 4rem;
   padding: 1.5rem 1rem;
+  text-align: center;
   background-color: #eef2ff;
   border-top: 1px solid var(--border-color);
-  text-align: center;
 }
 
-.footer-links {
+.footer p {
+  margin: 0.4rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.footer-links{
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 0.6rem;
+  justify-content: space-evenly;
 }
 
-.footer-link {
+.footer a {
   color: var(--primary-blue);
   text-decoration: none;
   font-weight: 500;
 }
 
-.footer-link:hover {
+.footer a:hover {
   text-decoration: underline;
-}
-
-.footer-copy {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--text-muted);
 }
 
 /* =====================

@@ -43,29 +43,36 @@ export const createLogin = async (req, res) => {
   }
 }
 
-//Not being used currently but kept for future use
-export const updateLogin = async (req, res) => {
+export const changePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
+
   if (!oldPassword || !newPassword) {
     return res.status(400).json({ error: "Both passwords required" });
   }
+
   try {
     const result = await db.query("SELECT password_hash FROM admin_auth WHERE id = TRUE");
     const valid = await bcrypt.compare(oldPassword,result.rows[0].password_hash);
     if (!valid) {
       return res.status(401).json({ error: "Old password incorrect" });
     }
+
     const newHash = await bcrypt.hash(newPassword, 12);
     await db.query("UPDATE admin_auth SET password_hash = $1 WHERE id = TRUE",[newHash]);
-    res.json({ success: true });
+    return res.redirect("/admin/login");
+
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Password update failed" });
+    return res.status(500).json({ error: "Password update failed" });
   }
 }
 
 export const renderLogin = (req, res) => {
   res.render("adminLogin.ejs");
+}
+
+export const renderchangePassword = (req, res) => {
+  res.render("changePassword.ejs");
 }
 
 export const renderHome = (req, res) => {
