@@ -37,9 +37,10 @@ export const renderAdminEnquiries = async (req, res) => {
 export const createEnquiry = async (req, res) => {
   const { name, question } = req.body;
 
-  if (!name || !question) {
-    return res.status(400).send("Invalid enquiry data");
+  if (!question) {
+    return res.status(400).send("Question is required");
   }
+  name = name ? name : null;
 
   try {
     await db.query(
