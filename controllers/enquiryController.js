@@ -35,17 +35,17 @@ export const renderAdminEnquiries = async (req, res) => {
 }
 
 export const createEnquiry = async (req, res) => {
-  const { name, question } = req.body;
+  let { name, question } = req.body;
 
-  if (!question) {
+  if (!question || !question.trim()) {
     return res.status(400).send("Question is required");
   }
-  name = name ? name : null;
+  name = name && name.trim() ? name.trim() : null;
 
   try {
     await db.query(
       "INSERT INTO enquiry (name, question) VALUES ($1, $2)",
-      [name, question]
+      [name, question.trim()]
     );
 
     return res.status(303).redirect("/enquiry");
